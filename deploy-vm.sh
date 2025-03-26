@@ -6,7 +6,7 @@ AMD_TEMPLATE_VMID=9052
 CLOUDINIT_IMAGE_TARGET_VOLUME=vm-storage
 TEMPLATE_BOOT_IMAGE_TARGET_VOLUME=vm-storage
 BOOT_IMAGE_TARGET_VOLUME=vm-storage
-SNIPPET_TARGET_VOLUME=local
+SNIPPET_TARGET_VOLUME=nfs
 SNIPPET_TARGET_PATH=/var/lib/vz/snippets
 REPOSITORY_RAW_SOURCE_URL="https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/${TARGET_BRANCH}"
 VM_LIST=(
@@ -21,12 +21,12 @@ VM_LIST=(
     # targethost: VMの配置先となるProxmoxホストのホスト名
     # ---
     #vmid #vmname  #cpu #mem  #vmsrvip    #targetip   #targethost
-    "1001 k8s-cp-1 2    8192  172.16.3.11 192.168.1.1 raspberrypi-proxmox-01"
-    "1002 k8s-cp-2 2    8192  172.16.3.12 192.168.1.2 raspberrypi-proxmox-02"
-    "1003 k8s-cp-3 2    8192  172.16.3.13 192.168.1.3 raspberrypi-proxmox-03"
-    "1101 k8s-wk-1 4    8192  172.16.3.21 192.168.1.6 primergy-proxmox-01"
-    "1102 k8s-wk-2 4    8192  172.16.3.22 192.168.1.6 primergy-proxmox-01"
-    "1103 k8s-wk-3 4    8192  172.16.3.23 192.168.1.6 primergy-proxmox-01"
+    "1001 k8s-cp-1 2    8192  192.168.1.11 192.168.1.1 raspberrypi-proxmox-01"
+    "1002 k8s-cp-2 2    8192  192.168.1.12 192.168.1.2 raspberrypi-proxmox-02"
+    "1003 k8s-cp-3 2    8192  192.168.1.13 192.168.1.3 raspberrypi-proxmox-03"
+    "1101 k8s-wk-1 4    8192  192.168.1.21 192.168.1.6 primergy-proxmox-01"
+    "1102 k8s-wk-2 4    8192  192.168.1.22 192.168.1.6 primergy-proxmox-01"
+    "1103 k8s-wk-3 4    8192  192.168.1.23 192.168.1.6 primergy-proxmox-01"
 )
 
 # For raspberrypi
