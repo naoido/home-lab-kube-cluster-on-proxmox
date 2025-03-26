@@ -64,10 +64,10 @@ do
     do
         case targethost in
             raspberrypi-*)
-                TEMPLATE_VMID=$ARM_TEMPLATE_ID
+                TEMPLATE_VMID=$ARM_TEMPLATE_VMID
                 ;;
             *)
-                TEMPLATE_VMID=$AMD_TEMPLATE_ID
+                TEMPLATE_VMID=$AMD_TEMPLATE_VMID
                 ;;
         esac
         # clone from template
