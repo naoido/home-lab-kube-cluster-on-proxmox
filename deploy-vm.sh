@@ -7,7 +7,7 @@ CLOUDINIT_IMAGE_TARGET_VOLUME=vm-storage
 TEMPLATE_BOOT_IMAGE_TARGET_VOLUME=vm-storage
 BOOT_IMAGE_TARGET_VOLUME=vm-storage
 SNIPPET_TARGET_VOLUME=nfs
-SNIPPET_TARGET_PATH=/var/lib/vz/snippets
+SNIPPET_TARGET_PATH=/mnt/pve/nfs/snippets
 REPOSITORY_RAW_SOURCE_URL="https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/${TARGET_BRANCH}"
 VM_LIST=(
     # ---
