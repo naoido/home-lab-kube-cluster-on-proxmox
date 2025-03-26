@@ -130,7 +130,7 @@ config:
     - type: static
       address: '${vmsrvip}'
       netmask: '255.255.254.0'
-      gateway: '192.168.1.1'
+      gateway: '192.168.0.1'
   - type: nameserver
     address:
     - '192.168.0.1'
