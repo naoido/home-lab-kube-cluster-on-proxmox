@@ -69,9 +69,11 @@ do
         case $targethost in
             raspberrypi-*)
                 TEMPLATE_VMID=$ARM_TEMPLATE_VMID
+                NIC_NAME=enp0s11
                 ;;
             *)
                 TEMPLATE_VMID=$AMD_TEMPLATE_VMID
+                NIC_NAME=ens18
                 ;;
         esac
         # clone from template
@@ -129,7 +131,7 @@ cat > "$SNIPPET_TARGET_PATH"/"$vmname"-network.yaml << EOF
 version: 1
 config:
   - type: physical
-    name: ens18
+    name: '${NIC_NAME}'
     subnets:
     - type: static
       address: '${vmsrvip}'
@@ -146,6 +148,13 @@ EOF
 
         # set snippet to vm
         ssh -n "${targetip}" qm set "${vmid}" --cicustom "user=${SNIPPET_TARGET_VOLUME}:snippets/${vmname}-user.yaml,network=${SNIPPET_TARGET_VOLUME}:snippets/${vmname}-network.yaml"
+        case "$targethost" in
+          raspberrypi-proxmox-*)
+            ssh -n "${targetip}" qm set "${vmid}" --efidisk0 nfs:1,format=qcow2,efitype=4m,size=64M,pre-enrolled-keys=1
+            ;;
+          *)
+            ;;
+        esac
     done
 done
 
