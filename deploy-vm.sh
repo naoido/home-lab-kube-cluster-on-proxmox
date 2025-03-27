@@ -45,7 +45,7 @@ qm set $AMD_TEMPLATE_VMID --scsihw virtio-scsi-pci --scsi0 $TEMPLATE_BOOT_IMAGE_
 
 # For arm machine
 qm set $ARM_TEMPLATE_VMID --machine virt
-qm set $ARM_TEMPLATE_VMID --scsihw virtio-scsi-pci --scsi1 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
+qm set $ARM_TEMPLATE_VMID --scsi1 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
 qm set $AMD_TEMPLATE_VMID --ide2 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
 
 qm set $ARM_TEMPLATE_VMID --boot c --bootdisk scsi0
@@ -144,7 +144,15 @@ EOF
 
         # set snippet to vm
         ssh -n "${targetip}" qm set "${vmid}" --cicustom "user=${SNIPPET_TARGET_VOLUME}:snippets/${vmname}-user.yaml,network=${SNIPPET_TARGET_VOLUME}:snippets/${vmname}-network.yaml"
-
+        case targethost in
+            raspberrypi-*)
+                # reattach cloud-init as scsi1
+                ssh -n "${targetip}" qm set "${vmid}" --delete ide2
+                ssh -n "${targetip}" qm set "${vmid}" --scsi1 ${CLOUDINIT_IMAGE_TARGET_VOLUME}:cloudinit
+                ;;
+            *)
+                ;;
+        esac
     done
 done
 
