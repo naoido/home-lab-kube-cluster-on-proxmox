@@ -114,7 +114,7 @@ runcmd:
   - su - cloudinit -c "curl -sS https://github.com/naoido.keys >> ~/.ssh/authorized_keys"
   - su - cloudinit -c "chmod 600 ~/.ssh/authorized_keys"
   # run install scripts
-  - su - cloudinit -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/scripts/k8s-setup.sh > ~/k8s-setup.sh"
+  - su - cloudinit -c "curl -o ~/k8s-setup.sh ${REPOSITORY_RAW_SOURCE_URL}/scripts/k8s-setup.sh"
   - su - cloudinit -c "sudo bash ~/k8s-setup.sh ${vmname} ${TARGET_BRANCH}"
   # change default shell to bash
   - chsh -s $(which bash) cloudinit
