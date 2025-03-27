@@ -90,10 +90,10 @@ EOF
 sysctl --system
 
 # Install kubeadm
-curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 apt-get update
-apt-get install -y kubelet=1.32.3-00 kubeadm=1.32.3-00 kubectl=1.32.3-00
+apt-get install -y kubelet=1.32.0-1.1 kubeadm=1.32.0-1.1 kubectl=1.32.0-1.1
 apt-mark hold kubelet kubeadm kubectl
 
 # Disable swap
@@ -114,9 +114,7 @@ case $1 in
 esac
 
 # Install HAProxy
-apt-get install -y --no-install-recommends software-properties-common
-add-apt-repository ppa:vbernat/haproxy-3.1 -y
-sudo apt-get install -y haproxy=3.1.\*
+apt-get install -y haproxy
 
 cat > /etc/haproxy/haproxy.cfg <<EOF
 global
