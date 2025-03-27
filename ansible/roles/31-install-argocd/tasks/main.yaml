@@ -1,28 +1,27 @@
-- name: Install ArgoCD from Helm
-  hosts: k8s-servers-cp-leader-with-ssh
-  become: true
-  tasks:
-    - name: Add ArgoCD Helm repo
-      shell: helm repo add argo https://argoproj.github.io/argo-helm
-      args:
-        creates: /root/.cache/helm/repository/argo-index.yaml
+- name: Add ArgoCD Helm repo
+  shell: helm repo add argo https://argoproj.github.io/argo-helm
+  args:
+    creates: /root/.cache/helm/repository/argo-index.yaml
 
-    - name: Update Helm repos
-      shell: helm repo update
+- name: Update Helm repos
+  shell: helm repo update
 
-    - name: Install ArgoCD core
-      shell: >
-        helm install argocd argo/argo-cd
-        --version 7.8.13
-        --create-namespace
-        --namespace argocd
-        --values https://raw.githubusercontent.com/unchama/kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
-      args:
-        creates: /etc/kubernetes/manifests/argocd-installed.flag
+- name: Check if ArgoCD is already installed
+  shell: helm list -n argocd | grep argocd
+  register: argocd_check
+  ignore_errors: true
 
-    - name: Install ArgoCD apps
-      shell: >
-        helm install argocd-apps argo/argocd-apps
-        --version 2.0.2
-        --namespace argocd
-        --values https://raw.githubusercontent.com/unchama/kube-cluster-on-proxmox/main/k8s-manifests/argocd-apps-helm-chart-values.yaml
+- name: Install ArgoCD core
+  shell: >
+    helm install argocd argo/argo-cd
+    --version 7.8.13
+    --create-namespace
+    --namespace argocd
+    --values https://raw.githubusercontent.com/unchama/kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
+
+- name: Install ArgoCD apps
+  shell: >
+    helm install argocd-apps argo/argocd-apps
+    --version 2.0.2
+    --namespace argocd
+    --values https://raw.githubusercontent.com/unchama/kube-cluster-on-proxmox/main/k8s-manifests/argocd-apps-helm-chart-values.yaml
