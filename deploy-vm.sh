@@ -43,11 +43,6 @@ qm importdisk $AMD_TEMPLATE_VMID jammy-server-cloudimg-amd64.img $TEMPLATE_BOOT_
 qm set $ARM_TEMPLATE_VMID --scsihw virtio-scsi-pci --scsi0 $TEMPLATE_BOOT_IMAGE_TARGET_VOLUME:vm-$ARM_TEMPLATE_VMID-disk-0
 qm set $AMD_TEMPLATE_VMID --scsihw virtio-scsi-pci --scsi0 $TEMPLATE_BOOT_IMAGE_TARGET_VOLUME:vm-$AMD_TEMPLATE_VMID-disk-0
 
-# For arm machine
-qm set $ARM_TEMPLATE_VMID --machine virt
-qm set $ARM_TEMPLATE_VMID --scsi1 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
-qm set $AMD_TEMPLATE_VMID --ide2 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
-
 qm set $ARM_TEMPLATE_VMID --boot c --bootdisk scsi0
 qm set $AMD_TEMPLATE_VMID --boot c --bootdisk scsi0
 
@@ -146,11 +141,11 @@ EOF
         ssh -n "${targetip}" qm set "${vmid}" --cicustom "user=${SNIPPET_TARGET_VOLUME}:snippets/${vmname}-user.yaml,network=${SNIPPET_TARGET_VOLUME}:snippets/${vmname}-network.yaml"
         case targethost in
             raspberrypi-*)
-                # reattach cloud-init as scsi1
-                ssh -n "${targetip}" qm set "${vmid}" --delete ide2
-                ssh -n "${targetip}" qm set "${vmid}" --scsi1 ${CLOUDINIT_IMAGE_TARGET_VOLUME}:cloudinit
+                ssh -n "${targetip}" qm set "${vmid}" --machine virt
+                ssh -n "${targetip}" qm set "${vmid}" --scsi1 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
                 ;;
             *)
+                ssh -n "${targetip}" qm set "${vmid}" --ide2 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
                 ;;
         esac
     done
