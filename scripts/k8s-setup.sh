@@ -10,6 +10,7 @@ case $1 in
         ;;
 esac
 
+TARGET_BRANCH=main
 KUBE_API_SERVER_VIP=192.168.1.100
 VIP_INTERFACE=enp0s11
 NODE_IPS=( 192.168.1.11 192.168.1.12 192.168.1.13 )
@@ -281,7 +282,7 @@ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bas
 helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium \
     --namespace kube-system \
-    --set kubeProxyReplacement=strict \
+    --set kubeProxyReplacement=true \
     --set k8sServiceHost=${KUBE_API_SERVER_VIP} \
     --set k8sServicePort=8443
 
