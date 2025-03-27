@@ -43,7 +43,10 @@ qm importdisk $AMD_TEMPLATE_VMID jammy-server-cloudimg-amd64.img $TEMPLATE_BOOT_
 qm set $ARM_TEMPLATE_VMID --scsihw virtio-scsi-pci --scsi0 $TEMPLATE_BOOT_IMAGE_TARGET_VOLUME:vm-$ARM_TEMPLATE_VMID-disk-0
 qm set $AMD_TEMPLATE_VMID --scsihw virtio-scsi-pci --scsi0 $TEMPLATE_BOOT_IMAGE_TARGET_VOLUME:vm-$AMD_TEMPLATE_VMID-disk-0
 
+# For ARM
+qm set $ARM_TEMPLATE_VMID --bios ovmf
 qm set $ARM_TEMPLATE_VMID --machine virt
+
 qm set $ARM_TEMPLATE_VMID --scsi1 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
 qm set $AMD_TEMPLATE_VMID --ide2 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
 
