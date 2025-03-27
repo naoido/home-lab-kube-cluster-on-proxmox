@@ -21,9 +21,9 @@ VM_LIST=(
     # targethost: VMの配置先となるProxmoxホストのホスト名
     # ---
     #vmid #vmname  #cpu #mem  #vmsrvip    #targetip   #targethost
-    "1001 k8s-cp-1 2    8192  192.168.1.11 192.168.1.1 raspberrypi-proxmox-01"
-    "1002 k8s-cp-2 2    8192  192.168.1.12 192.168.1.2 raspberrypi-proxmox-02"
-    "1003 k8s-cp-3 2    8192  192.168.1.13 192.168.1.3 raspberrypi-proxmox-03"
+    "1001 k8s-cp-1 4    8192  192.168.1.11 192.168.1.1 raspberrypi-proxmox-01"
+    "1002 k8s-cp-2 4    8192  192.168.1.12 192.168.1.2 raspberrypi-proxmox-02"
+    "1003 k8s-cp-3 4    8192  192.168.1.13 192.168.1.3 raspberrypi-proxmox-03"
     "1101 k8s-wk-1 4    8192  192.168.1.21 192.168.1.6 primergy-proxmox-01"
     "1102 k8s-wk-2 4    8192  192.168.1.22 192.168.1.6 primergy-proxmox-01"
     "1103 k8s-wk-3 4    8192  192.168.1.23 192.168.1.6 primergy-proxmox-01"
