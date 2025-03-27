@@ -1,4 +1,6 @@
-# !/bin/bash -eu
+#!/usr/bin/env bash
+
+set -eu
 
 case $1 in
     k8s-cp-[1-3]|k8s-wk-*)
@@ -250,7 +252,7 @@ kind: ClusterConfiguration
 networking:
   serviceSubnet: "10.96.0.0/16"
   podSubnet: "10.128.0.0/16"
-kubernetesVersion: "v1.32.3"
+kubernetesVersion: "v1.32.0"
 controlPlaneEndpoint: "${KUBE_API_SERVER_VIP}:8443"
 controllerManager:
   extraArgs:
