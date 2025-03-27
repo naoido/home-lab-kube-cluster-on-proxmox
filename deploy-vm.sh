@@ -46,7 +46,6 @@ qm set $AMD_TEMPLATE_VMID --scsihw virtio-scsi-pci --scsi0 $TEMPLATE_BOOT_IMAGE_
 # For ARM
 qm set $ARM_TEMPLATE_VMID --bios ovmf
 qm set $ARM_TEMPLATE_VMID --machine virt
-qm set $ARM_TEMPLATE_VMID --efidisk0 $SNIPPET_TARGET_VOLUME:1,format=qcow2,efitype=4m,pre-enrolled-keys=1
 
 qm set $ARM_TEMPLATE_VMID --scsi1 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
 qm set $AMD_TEMPLATE_VMID --ide2 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
@@ -87,7 +86,7 @@ do
 
         # resize disk (Resize after cloning, because it takes time to clone a large disk)
         ssh -n "${targetip}" qm resize "${vmid}" scsi0 30G
-
+        ssh -n "${targetip}" qm set "${vmid}" --efidisk0 nfs:vm-"${vmid}"-efidisk.qcow2,format=qcow2,efitype=4m,pre-enrolled-keys=1
         # create snippet for cloud-init(user-config)
         # START irregular indent because heredoc
 # ----- #
