@@ -22,3 +22,8 @@
   hosts: k8s-servers-cp-with-ssh
   roles:
     - 21-copy-kubeconfig
+
+- name: 31-install-argocd
+  hosts: k8s-servers-cp-leader-with-ssh
+  roles:
+    - 31-install-argocd
