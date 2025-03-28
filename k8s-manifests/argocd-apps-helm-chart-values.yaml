@@ -7,6 +7,7 @@ applications:
     - name: argocd-root-app-of-apps
       namespace: argocd
       project: argocd-root
+      additionalAnnotations: {}
       source:
         repoURL: https://github.com/naoido/home-lab-kube-cluster-on-proxmox
         targetRevision: main
