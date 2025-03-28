@@ -16,4 +16,4 @@
     helm install argocd-apps argo/argocd-apps
     --version 2.0.2
     --namespace argocd
-    --values https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
+    --values https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-apps-helm-chart-values.yaml
