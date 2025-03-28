@@ -1,5 +1,7 @@
 - name: Add ArgoCD Helm repo
-  shell: helm repo add argo https://argoproj.github.io/argo-helm
+  shell: |
+    helm repo add argo https://argoproj.github.io/argo-helm
+    helm repo update
 
 - name: Install ArgoCD core
   shell: >
