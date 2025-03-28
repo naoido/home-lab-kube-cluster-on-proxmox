@@ -1,15 +1,5 @@
 - name: Add ArgoCD Helm repo
   shell: helm repo add argo https://argoproj.github.io/argo-helm
-  args:
-    creates: /root/.cache/helm/repository/argo-index.yaml
-
-- name: Update Helm repos
-  shell: helm repo update
-
-- name: Check if ArgoCD is already installed
-  shell: helm list -n argocd | grep argocd
-  register: argocd_check
-  ignore_errors: true
 
 - name: Install ArgoCD core
   shell: >

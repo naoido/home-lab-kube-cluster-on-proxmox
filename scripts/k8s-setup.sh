@@ -339,4 +339,4 @@ export ANSIBLE_CONFIG="$HOME"/home-lab-kube-cluster-on-proxmox/ansible/ansible.c
 # run ansible-playbook
 ansible-galaxy role install -r "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/roles/requirements.yaml
 ansible-galaxy collection install -r "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/roles/requirements.yaml
-ansible-playbook -i "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/hosts/k8s-servers/inventory "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/site.yaml | tee ansible-run-$(date +%F-%H%M).log
+ansible-playbook -i "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/hosts/k8s-servers/inventory "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/site.yaml | tee "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/ansible-run-$(date +%F-%H%M).log
