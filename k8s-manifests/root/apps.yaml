@@ -1,4 +1,43 @@
 apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-wide-apps
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/naoido/home-lab-kube-cluster-on-proxmox
+        revision: main
+        directories:
+          - path: k8s-manifests/apps/cluster-wide-apps/*
+  template:
+    metadata:
+      name: "cluster-wide-apps-{{path.basenameNormalized}}"
+      namespace: argocd
+    spec:
+      project: cluster-wide-apps
+      source:
+        repoURL: https://github.com/naoido/home-lab-kube-cluster-on-proxmox
+        targetRevision: main
+        path: "{{path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'cluster-wide-apps'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: -1
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 2m
+---
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cluster-wide-app-resources
