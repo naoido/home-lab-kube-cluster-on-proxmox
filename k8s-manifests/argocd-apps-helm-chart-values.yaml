@@ -26,6 +26,7 @@ projects:
   argocd-root:
     namespace: argocd
     description: The top-level project
+    additionalAnnotations: {}
     sourceRepos:
       - "*"
     destinations:
