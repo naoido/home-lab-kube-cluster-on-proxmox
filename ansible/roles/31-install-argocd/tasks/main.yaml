@@ -10,7 +10,6 @@
     --values https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
 
 - name: Install ArgoCD apps
-  ignore_errors: yes
   shell: >
     helm install argocd-apps argo/argocd-apps
     --version 2.0.2
