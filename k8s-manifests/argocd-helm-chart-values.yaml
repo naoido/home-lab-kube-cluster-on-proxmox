@@ -37,17 +37,19 @@ configs:
 # BEGIN ANSIBLE MANAGED BLOCK - SSH KEY CONFIG
   secret:
     create: true
+    name: argocd-secret-neko-bot-secret
     sshPrivateKey: |
       -----BEGIN OPENSSH PRIVATE KEY-----
       ...
       -----END OPENSSH PRIVATE KEY-----
 # END ANSIBLE MANAGED BLOCK - SSH KEY CONFIG
-  repositories:
-    neko-bot-secret:
-      type: git
-      url: git@github.com:naoido/neko-bot-secret.git
-      name: neko-bot
-      sshPrivateKeySecret: argocd-secret.sshPrivateKey
+
+repositories:
+  neko-bot-secret:
+    type: git
+    url: git@github.com:naoido/neko-bot-secret.git
+    name: neko-bot
+    sshPrivateKeySecret: argocd-secret-neko-bot-secret.sshPrivateKey
 
 controller:
   enableStatefulSet: true

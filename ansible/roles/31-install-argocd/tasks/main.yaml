@@ -18,11 +18,12 @@
   blockinfile:
     path: /tmp/argocd-helm-chart-values.yaml
     marker: "# {mark} ANSIBLE MANAGED BLOCK - SSH KEY CONFIG"
-    block: |1
-       secret:
-         create: true
-         sshPrivateKey: |
-           {{ ssh_private_key.content | b64decode | indent(6) }}
+    block: |2
+        secret:
+          create: true
+          name: argocd-secret-neko-bot-secret
+          sshPrivateKey: |
+            {{ ssh_private_key.content | b64decode | indent(6) }}
 
 - name: Wait for at least 1 Ready worker node
   shell: kubectl get nodes --no-headers | grep -v control-plane | grep -c ' Ready '
