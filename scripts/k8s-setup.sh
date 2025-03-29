@@ -110,6 +110,7 @@ EOF
 
 case $1 in
     k8s-wk-*)
+        rm /root/.ssh/neko-bot-secret-id_ed25519
         exit 0
         ;;
     *)
@@ -230,6 +231,7 @@ case $1 in
     k8s-cp-1)
         ;;
     *)
+        rm /root/.ssh/neko-bot-secret-id_ed25519
         exit 0
         ;;
 esac
