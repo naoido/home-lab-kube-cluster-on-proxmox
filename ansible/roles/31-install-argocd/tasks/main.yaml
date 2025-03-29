@@ -45,6 +45,7 @@
     state: absent
 
 - name: Remove SSH private key after use
+  become: true
   file:
     path: /root/.ssh/neko-bot-secret-id_ed25519
     state: absent
