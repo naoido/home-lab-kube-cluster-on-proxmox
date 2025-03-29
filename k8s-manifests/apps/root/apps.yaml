@@ -87,6 +87,8 @@ spec:
         repoURL: https://github.com/naoido/neko-bot.git
         targetRevision: main
         path: "{{path}}"
+        gitSubmodule:
+          enabled: true
       destination:
         server: https://kubernetes.default.svc
         namespace: neko-bot
