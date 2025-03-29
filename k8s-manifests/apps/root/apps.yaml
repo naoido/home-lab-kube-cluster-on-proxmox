@@ -84,7 +84,7 @@ spec:
     spec:
       project: neko-bot
       source:
-        repoURL: git@github.com:naoido/neko-bot.git
+        repoURL: https://github.com/naoido/neko-bot.git
         targetRevision: main
         path: "{{path}}"
         gitSubmodule:
