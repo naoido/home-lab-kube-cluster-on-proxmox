@@ -91,6 +91,7 @@ do
         ssh -n "${targetip}" qm set "${vmid}" --efidisk0 nfs:vm-"${vmid}"-efidisk.qcow2,format=qcow2,efitype=4m,pre-enrolled-keys=1
         # create snippet for cloud-init(user-config)
         # START irregular indent because heredoc
+        SSH_KEY=$(sed 's/^/      /' ~/.ssh/id_ed25519)
 # ----- #
 cat > "$SNIPPET_TARGET_PATH"/"$vmname"-user.yaml << EOF
 #cloud-config
@@ -114,7 +115,7 @@ write_files:
     permissions: '0600'
     owner: root:root
     content: |
-$(sed 's/^/      /' ~/.ssh/id_ed25519)
+${SSH_KEY}
 runcmd:
   # set ssh_authorized_keys
   - su - cloudinit -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
