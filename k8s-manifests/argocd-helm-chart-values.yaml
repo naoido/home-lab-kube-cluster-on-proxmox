@@ -47,9 +47,7 @@ configs:
       type: git
       url: git@github.com:naoido/neko-bot-secret.git
       name: neko-bot
-      sshPrivateKeySecret:
-        name: argocd-secret
-        key: sshPrivateKey
+      sshPrivateKeySecret: argocd-secret.sshPrivateKey
 
 controller:
   enableStatefulSet: true
