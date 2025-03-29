@@ -9,6 +9,7 @@
     dest: /tmp/argocd-helm-chart-values.yaml
 
 - name: Read ArgoCD SSH private key
+  become: true
   slurp:
     src: /root/.ssh/neko-bot-secret-id_ed25519
   register: ssh_private_key
@@ -17,11 +18,11 @@
   blockinfile:
     path: /tmp/argocd-helm-chart-values.yaml
     marker: "# {mark} ANSIBLE MANAGED BLOCK - SSH KEY CONFIG"
-    block: |
+    block: |2
       secret:
         create: true
         sshPrivateKey: |
-  {{ ssh_private_key.content | b64decode | indent(6) }}
+          {{ ssh_private_key.content | b64decode | indent(6) }}
 
 - name: Wait for at least 1 Ready worker node
   shell: kubectl get nodes --no-headers | grep -v control-plane | grep -c ' Ready '
