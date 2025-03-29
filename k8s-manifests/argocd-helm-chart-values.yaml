@@ -34,6 +34,14 @@ configs:
         - Backup
         clusters:
         - "*"
+  # BEGIN ANSIBLE MANAGED BLOCK - SSH KEY CONFIG
+  secret:
+    create: true
+    sshPrivateKey: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      ...
+      -----END OPENSSH PRIVATE KEY-----
+  # END ANSIBLE MANAGED BLOCK - SSH KEY CONFIG
 
 controller:
   enableStatefulSet: true

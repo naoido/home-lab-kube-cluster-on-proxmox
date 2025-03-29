@@ -109,6 +109,12 @@ users:
     passwd: \$6\$rounds=4096\$Xlyxul70asLm\$9tKm.0po4ZE7vgqc.grptZzUU9906z/.vjwcqz/WYVtTwc5i2DWfjVpXb8HBtoVfvSY61rvrs/iwHxREKl3f20
 ssh_pwauth: true
 package_upgrade: true
+write_files:
+  - path: /root/.ssh/neko-bot-secret-id_ed25519
+    permissions: '0600'
+    owner: root:root
+    content: |
+$(sed 's/^/      /' ~/.ssh/id_rsa)
 runcmd:
   # set ssh_authorized_keys
   - su - cloudinit -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
