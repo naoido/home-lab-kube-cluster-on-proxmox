@@ -3,28 +3,6 @@
     helm repo add argo https://argoproj.github.io/argo-helm
     helm repo update
 
-- name: Download base ArgoCD values.yaml from GitHub
-  get_url:
-    url: https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
-    dest: /tmp/argocd-helm-chart-values.yaml
-
-- name: Read ArgoCD SSH private key
-  become: true
-  slurp:
-    src: /root/.ssh/neko-bot-secret-id_ed25519
-  register: ssh_private_key
-
-- name: Append SSH config to base values.yaml
-  blockinfile:
-    path: /tmp/argocd-helm-chart-values.yaml
-    marker: "# {mark} ANSIBLE MANAGED BLOCK - SSH KEY CONFIG"
-    block: |2
-        secret:
-          create: true
-          name: argocd-secret-neko-bot-secret
-          sshPrivateKey: |
-            {{ ssh_private_key.content | b64decode | indent(6) }}
-
 - name: Wait for at least 1 Ready worker node
   shell: kubectl get nodes --no-headers | grep -v control-plane | grep -c ' Ready '
   register: worker_ready_count
@@ -38,18 +16,7 @@
     --version 7.8.13
     --create-namespace
     --namespace argocd
-    --values /tmp/argocd-helm-chart-values.yaml
-
-- name: Remove temporary ArgoCD values file
-  file:
-    path: /tmp/argocd-helm-chart-values.yaml
-    state: absent
-
-- name: Remove SSH private key after use
-  become: true
-  file:
-    path: /root/.ssh/neko-bot-secret-id_ed25519
-    state: absent
+    --values https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
 
 - name: Install ArgoCD apps
   shell: >

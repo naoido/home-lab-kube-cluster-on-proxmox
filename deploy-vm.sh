@@ -111,9 +111,9 @@ users:
 ssh_pwauth: true
 package_upgrade: true
 write_files:
-  - path: /root/.ssh/neko-bot-secret-id_ed25519
+  - path: /home/cloudinit/.ssh/neko-bot-secret-id_ed25519
     permissions: '0600'
-    owner: root:root
+    owner: cloudinit:cloudinit
     content: |
 ${SSH_KEY}
 runcmd:
