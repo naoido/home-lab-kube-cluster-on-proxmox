@@ -114,7 +114,7 @@ write_files:
     permissions: '0600'
     owner: root:root
     content: |
-$(sed 's/^/      /' ~/.ssh/id_rsa)
+$(sed 's/^/      /' ~/.ssh/id_ed25519)
 runcmd:
   # set ssh_authorized_keys
   - su - cloudinit -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
