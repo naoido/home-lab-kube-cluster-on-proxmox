@@ -73,7 +73,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: ssh://git@github.com:naoido/neko-bot.git
+        repoURL: https://github.com/naoido/neko-bot.git
         revision: main
         directories:
           - path: k8s-manifests/*
@@ -84,7 +84,7 @@ spec:
     spec:
       project: neko-bot
       source:
-        repoURL: ssh://git@github.com:naoido/neko-bot.git
+        repoURL: https://github.com/naoido/neko-bot.git
         targetRevision: main
         path: "{{path}}"
       destination:
