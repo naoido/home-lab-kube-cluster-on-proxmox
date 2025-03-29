@@ -64,3 +64,42 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 2m
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: neko-bot-apps
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/naoido/neko-bot
+        revision: main
+        directories:
+          - path: k8s-manifests/*
+  template:
+    metadata:
+      name: "neko-bot-{{path.basenameNormalized}}"
+      namespace: argocd
+    spec:
+      project: neko-bot
+      source:
+        repoURL: https://github.com/naoido/neko-bot
+        targetRevision: main
+        path: "{{path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: neko-bot
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: -1
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 2m
