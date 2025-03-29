@@ -42,6 +42,14 @@ configs:
       ...
       -----END OPENSSH PRIVATE KEY-----
 # END ANSIBLE MANAGED BLOCK - SSH KEY CONFIG
+  repositories:
+    neko-bot-secret:
+      type: git
+      url: git@github.com:naoido/neko-bot-secret.git
+      name: neko-bot
+      sshPrivateKeySecret:
+        name: argocd-secret
+        key: sshPrivateKey
 
 controller:
   enableStatefulSet: true
@@ -80,6 +88,7 @@ redis:
       memory: 128Mi
 
 repoServer:
+  enableSshAgent: true
   replicaCount: 1
   resources:
     requests:
