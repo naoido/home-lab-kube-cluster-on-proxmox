@@ -3,6 +3,12 @@
     helm repo add argo https://argoproj.github.io/argo-helm
     helm repo update
 
+- name: Move private key to cloudinit user
+  shell: |
+    mv /root/.ssh/neko-bot-secret-id_ed25519 /home/cloudinit/.ssh/neko-bot-secret-id_ed25519
+    chown cloudinit:cloudinit /home/cloudinit/.ssh/neko-bot-secret-id_ed25519
+    chmod 600 /home/cloudinit/.ssh/neko-bot-secret-id_ed25519
+
 - name: Wait for at least 1 Ready worker node
   shell: kubectl get nodes --no-headers | grep -v control-plane | grep -c ' Ready '
   register: worker_ready_count
