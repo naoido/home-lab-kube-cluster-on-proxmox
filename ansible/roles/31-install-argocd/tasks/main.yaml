@@ -12,12 +12,14 @@
   blockinfile:
     path: /tmp/argocd-helm-chart-values.yaml
     marker: "# {mark} ANSIBLE MANAGED BLOCK - REPO CREDENTIALS"
-    block: |2
-        repoCredentials:
-          - url: https://github.com/naoido
-            username: naoido
-            password: {{ NEKO_BOT_SECRET_PAT }}
-            type: helm
+    block: |
+      repositories::
+        - url: https://github.com/naoido/neko-bot
+          username: naoido
+          password: {{ NEKO_BOT_SECRET_PAT }}
+        - url: https://github.com/naoido/neko-bot-secret
+          username: naoido
+          password: {{ NEKO_BOT_SECRET_PAT }}
 
 - name: Wait for at least 1 Ready worker node
   shell: kubectl get nodes --no-headers | grep -v control-plane | grep -c ' Ready '
