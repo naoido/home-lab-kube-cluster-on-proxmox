@@ -42,8 +42,8 @@ configs:
         password: ....
 # END ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
   repositories:
-  - url: https://github.com/naoido/neko-bot
-    name: neko-bot
+    - url: https://github.com/naoido/neko-bot
+      name: neko-bot
 
 controller:
   enableStatefulSet: true
