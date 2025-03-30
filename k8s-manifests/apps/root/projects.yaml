@@ -16,7 +16,23 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: 'sci-driver-nfs'
       server: https://kubernetes.default.svc
-    - namespace: 'neko-bot-app'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: neko-bot
+  namespace: argocd
+spec:
+  description: neko-bot!
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: neko-bot
+      server: https://kubernetes.default.svc
+    - namespace: argocd
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
     - group: '*'
