@@ -19,7 +19,8 @@
               username: naoido
               password: {{ NEKO_BOT_SECRET_PAT }}
         repositories:
-          - url: https://github.com/naoido/neko-bot
+          neko-bot:
+            url: https://github.com/naoido/neko-bot
             name: neko-bot
 
 - name: Wait for at least 1 Ready worker node
