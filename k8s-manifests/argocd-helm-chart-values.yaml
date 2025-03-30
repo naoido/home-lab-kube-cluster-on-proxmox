@@ -34,13 +34,6 @@ configs:
         - Backup
         clusters:
         - "*"
-# BEGIN ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
-  credentialTemplates:
-    github-pat-creds:
-      - url: https://github.com/....
-        username: ....
-        password: ....
-# END ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
   repositories:
     neko-bot:
       url: https://github.com/naoido/neko-bot.git
@@ -48,6 +41,13 @@ configs:
     neko-bot-secret:
       url: https://github.com/naoido/neko-bot-secret.git
       name: neko-bot-secret
+# BEGIN ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
+  credentialTemplates:
+    github-pat-creds:
+      - url: https://github.com/....
+        username: ....
+        password: ....
+# END ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
 
 controller:
   enableStatefulSet: true
