@@ -34,21 +34,11 @@ configs:
         - Backup
         clusters:
         - "*"
+# BEGIN ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
   repositories:
     neko-bot:
-      url: https://github.com/naoido/neko-bot.git
-      name: neko-bot
-      credentialName: github-pat-creds
-    neko-bot-secret:
-      url: https://github.com/naoido/neko-bot-secret.git
-      name: neko-bot-secret
-      credentialName: github-pat-creds
-# BEGIN ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
-  credentialTemplates:
-    github-pat-creds:
-      - url: https://github.com/....
-        username: ....
-        password: ....
+      url: https://github.com/...
+      name: ....
 # END ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
 
 controller:
