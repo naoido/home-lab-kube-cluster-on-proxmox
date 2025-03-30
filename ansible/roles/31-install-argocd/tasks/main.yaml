@@ -17,6 +17,7 @@
           - url: https://github.com/naoido
             username: naoido
             password: {{ NEKO_BOT_SECRET_PAT }}
+            type: helm
 
 - name: Wait for at least 1 Ready worker node
   shell: kubectl get nodes --no-headers | grep -v control-plane | grep -c ' Ready '
