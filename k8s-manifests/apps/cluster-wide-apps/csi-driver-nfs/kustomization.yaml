@@ -1,10 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
-namespace: sci-driver-nfs
+namespace: kube-system
 kind: Kustomization
 
 resources:
   - storageclass.yaml
-  - github.com/kubernetes-sigs/nfs-subdir-external-provisioner//deploy?ref=v4.0.18
-
-patchesStrategicMerge:
-  - patch_nfs_details.yaml
