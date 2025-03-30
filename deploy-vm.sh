@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 TARGET_BRANCH=main
+GITHUB_PAT=$1
 ARM_TEMPLATE_VMID=9051
 AMD_TEMPLATE_VMID=9052
 CLOUDINIT_IMAGE_TARGET_VOLUME=vm-storage
@@ -91,7 +92,6 @@ do
         ssh -n "${targetip}" qm set "${vmid}" --efidisk0 nfs:vm-"${vmid}"-efidisk.qcow2,format=qcow2,efitype=4m,pre-enrolled-keys=1
         # create snippet for cloud-init(user-config)
         # START irregular indent because heredoc
-        SSH_KEY=$(sed 's/^/      /' ~/.ssh/id_ed25519)
 # ----- #
 cat > "$SNIPPET_TARGET_PATH"/"$vmname"-user.yaml << EOF
 #cloud-config
@@ -110,7 +110,6 @@ users:
     passwd: \$6\$rounds=4096\$Xlyxul70asLm\$9tKm.0po4ZE7vgqc.grptZzUU9906z/.vjwcqz/WYVtTwc5i2DWfjVpXb8HBtoVfvSY61rvrs/iwHxREKl3f20
 ssh_pwauth: true
 package_upgrade: true
-${SSH_KEY}
 runcmd:
   # set ssh_authorized_keys
   - su - cloudinit -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
@@ -118,7 +117,7 @@ runcmd:
   - su - cloudinit -c "chmod 600 ~/.ssh/authorized_keys"
   # run install scripts
   - su - cloudinit -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/scripts/k8s-setup.sh > ~/k8s-setup.sh"
-  - su - cloudinit -c "sudo bash ~/k8s-setup.sh ${vmname} ${TARGET_BRANCH}"
+  - su - cloudinit -c "sudo bash ~/k8s-setup.sh ${vmname} ${TARGET_BRANCH} ${GITHUB_PAT}"
   # change default shell to bash
   - chsh -s $(which bash) cloudinit
 EOF
