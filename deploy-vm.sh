@@ -2,6 +2,12 @@
 
 TARGET_BRANCH=main
 GITHUB_PAT=$1
+
+if [ -z "$1" ]; then
+  echo "You must provide a PAT as the first argument."
+  exit 1
+fi
+
 ARM_TEMPLATE_VMID=9051
 AMD_TEMPLATE_VMID=9052
 CLOUDINIT_IMAGE_TARGET_VOLUME=vm-storage
