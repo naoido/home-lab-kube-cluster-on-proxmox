@@ -6,6 +6,7 @@ provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.1.50
   share: /mnt/pool/k8s-nfs
+  readOnly: "false"
   mountPermissions: "777"
 reclaimPolicy: Retain
 volumeBindingMode: Immediate

@@ -4,3 +4,7 @@ kind: Kustomization
 
 resources:
   - storageclass.yaml
+  - github.com/kubernetes-sigs/nfs-subdir-external-provisioner//deploy?ref=v4.0.18
+
+patchesStrategicMerge:
+  - patch_nfs_details.yaml
