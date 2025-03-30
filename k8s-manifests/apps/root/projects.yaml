@@ -16,6 +16,8 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: 'sci-driver-nfs'
       server: https://kubernetes.default.svc
+    - namespace: 'neko-bot-app'
+      server: https://kubernetes.default.svc
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
