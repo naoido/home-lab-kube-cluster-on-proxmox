@@ -14,7 +14,7 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK - REPO CREDENTIALS"
     block: |
       repoCredentials:
-        - url: https://github.com/naoido/neko-bot-secret.git
+        - url: https://github.com/naoido
           username: naoido
           password: {{ NEKO_BOT_SECRET_PAT }}
 
