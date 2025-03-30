@@ -3,12 +3,20 @@
     helm repo add argo https://argoproj.github.io/argo-helm
     helm repo update
 
-- name: Move private key to cloudinit user
-  become: true
-  shell: |
-    mv /root/.ssh/neko-bot-secret-id_ed25519 /home/cloudinit/.ssh/neko-bot-secret-id_ed25519
-    chown cloudinit:cloudinit /home/cloudinit/.ssh/neko-bot-secret-id_ed25519
-    chmod 600 /home/cloudinit/.ssh/neko-bot-secret-id_ed25519
+- name: Download base ArgoCD values.yaml from GitHub
+  get_url:
+    url: https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
+    dest: /tmp/argocd-helm-chart-values.yaml
+
+- name: Append PAT to base values.yaml
+  blockinfile:
+    path: /tmp/argocd-helm-chart-values.yaml
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - REPO CREDENTIALS"
+    block: |
+      repoCredentials:
+        - url: https://github.com/naoido/neko-bot-secret.git
+          username: naoido
+          password: {{ NEKO_BOT_SECRET_PAT }}
 
 - name: Wait for at least 1 Ready worker node
   shell: kubectl get nodes --no-headers | grep -v control-plane | grep -c ' Ready '
@@ -23,7 +31,7 @@
     --version 7.8.13
     --create-namespace
     --namespace argocd
-    --values https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
+    --values /tmp/argocd-helm-chart-values.yaml
 
 - name: Install ArgoCD apps
   shell: >
@@ -31,3 +39,8 @@
     --version 2.0.2
     --namespace argocd
     --values https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-apps-helm-chart-values.yaml
+
+- name: Remove temporary ArgoCD values file
+  file:
+    path: /tmp/argocd-helm-chart-values.yaml
+    state: absent

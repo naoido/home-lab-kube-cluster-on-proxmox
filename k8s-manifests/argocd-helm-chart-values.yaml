@@ -79,6 +79,13 @@ repoServer:
       cpu: 500m
       memory: 128Mi
 
+# BEGIN ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
+repoCredentials:
+  - url: https://github.com/....
+    username: ....
+    password: ....
+# END ANSIBLE MANAGED BLOCK - REPO CREDENTIALS
+
 applicationSet:
   replicaCount: 1
   resources:

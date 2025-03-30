@@ -11,6 +11,7 @@ case $1 in
 esac
 
 TARGET_BRANCH=main
+GITHUB_PAT=$2
 KUBE_API_SERVER_VIP=192.168.1.100
 VIP_INTERFACE=enp0s11
 NODE_IPS=( 192.168.1.11 192.168.1.12 192.168.1.13 )
@@ -110,7 +111,6 @@ EOF
 
 case $1 in
     k8s-wk-*)
-        rm /root/.ssh/neko-bot-secret-id_ed25519
         exit 0
         ;;
     *)
@@ -231,7 +231,6 @@ case $1 in
     k8s-cp-1)
         ;;
     *)
-        rm /root/.ssh/neko-bot-secret-id_ed25519
         exit 0
         ;;
 esac
@@ -341,4 +340,4 @@ export ANSIBLE_CONFIG="$HOME"/home-lab-kube-cluster-on-proxmox/ansible/ansible.c
 # run ansible-playbook
 ansible-galaxy role install -r "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/roles/requirements.yaml
 ansible-galaxy collection install -r "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/roles/requirements.yaml
-ansible-playbook -i "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/hosts/k8s-servers/inventory "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/site.yaml | tee "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/ansible-run-$(date +%F-%H%M).log
+ansible-playbook -i "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/hosts/k8s-servers/inventory "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/site.yaml -e "NEKO_BOT_SECRET_PAT=$GITHUB_PAT" | tee "$HOME"/home-lab-kube-cluster-on-proxmox/ansible/ansible-run-$(date +%F-%H%M).log
