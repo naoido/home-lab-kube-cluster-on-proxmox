@@ -17,6 +17,8 @@
           neko-bot:
             url: https://github.com/naoido/neko-bot.git
             name: neko-bot
+            username: naoido
+            password: {{ NEKO_BOT_SECRET_PAT }}
           neko-bot-secret:
             url: https://github.com/naoido/neko-bot-secret.git
             name: neko-bot-secret
