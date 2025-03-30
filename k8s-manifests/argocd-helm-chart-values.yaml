@@ -46,7 +46,7 @@ configs:
       url: https://github.com/naoido/neko-bot.git
       name: neko-bot
     neko-bot-secret:
-      url: https://github.com/naoido/neko-bot.git
+      url: https://github.com/naoido/neko-bot-secret.git
       name: neko-bot-secret
 
 controller:
