@@ -1,6 +1,6 @@
 # 自宅環境でk8sをセットアップするためのスクリプト
 ```bash
-/bin/bash <(curl -s https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/deploy-vm.sh)
+/bin/bash <(curl -s https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/deploy-vm.sh) ${GITHUB_PAT}
 ```
 
 ## トラブルシューティング
