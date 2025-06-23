@@ -92,31 +92,3 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 2m
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: hackz-giganoto-app
-  namespace: argocd
-spec:
-  project: hackz-giganoto
-  source:
-    repoURL: https://github.com/naoido/hackz-giganoto
-    targetRevision: feature/telemetry
-    path: k8s-manifests/base
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: 'hackz-giganoto'
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-      allowEmpty: true
-    syncOptions:
-      - CreateNamespace=true
-    retry:
-      limit: -1
-      backoff:
-        duration: 5s
-        factor: 2
-        maxDuration: 2m
