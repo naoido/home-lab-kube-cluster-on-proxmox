@@ -14,6 +14,16 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK - REPO CREDENTIALS"
     block: |2
         repositories:
+          home-lab-main:
+            url: https://github.com/naoido/home-lab-kube-cluster-on-proxmox.git
+            name: home-lab-main
+            username: naoido
+            password: {{ NEKO_BOT_SECRET_PAT }}
+          home-lab-secrets:
+            url: https://github.com/naoido/home-lab-kube-cluster-on-proxmox-secrets.git
+            name: home-lab-secrets
+            username: naoido
+            password: {{ NEKO_BOT_SECRET_PAT }}
           neko-bot:
             url: https://github.com/naoido/neko-bot.git
             name: neko-bot
@@ -37,11 +47,8 @@
     helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
     helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version 4.11.0
 
-- name: Deploy Cloudflare Tunnel secrets
+- name: Deploy Cloudflare Tunnel secrets (before ArgoCD starts managing it)
   shell: kubectl apply -f {{ ansible_env.HOME }}/home-lab-kube-cluster-on-proxmox/k8s-manifests/secrets/cloudflare-tunnel-secret.yaml
-
-- name: Deploy Cloudflare Tunnel daemon
-  shell: kubectl apply -f {{ ansible_env.HOME }}/home-lab-kube-cluster-on-proxmox/k8s-manifests/apps/cluster-wide-app-resources/cloudflare-tunnel.yaml
 
 - name: Install ArgoCD core
   shell: >
