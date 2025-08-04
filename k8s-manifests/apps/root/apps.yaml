@@ -101,7 +101,7 @@ metadata:
 spec:
   project: object-t-minecraft
   source:
-    repoURL: https://github.com/object-t/objectt-minecraft-server-infra
+    repoURL: https://github.com/object-t/objectt-minecraft-server-infra.git
     targetRevision: main
     path: k8s-manifests
   destination:
