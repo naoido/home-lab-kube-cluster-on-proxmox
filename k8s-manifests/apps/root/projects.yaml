@@ -37,3 +37,21 @@ spec:
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: object-t-minecraft
+  namespace: argocd
+spec:
+  description: object-tMinecraftServer
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: object-t-minecraft
+      server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
