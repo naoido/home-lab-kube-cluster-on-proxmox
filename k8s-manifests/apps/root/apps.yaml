@@ -92,3 +92,31 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 2m
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: object-t-minecraft
+  namespace: argocd
+spec:
+  project: object-t-minecraft
+  source:
+    repoURL: https://github.com/object-t/objectt-minecraft-server-infra
+    targetRevision: main
+    path: k8s-manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: 'object-t-minecraft'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: -1
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
