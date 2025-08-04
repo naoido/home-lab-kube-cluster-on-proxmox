@@ -3,9 +3,9 @@
     helm repo add argo https://argoproj.github.io/argo-helm
     helm repo update
 
-- name: Download base ArgoCD values.yaml from GitHub
-  get_url:
-    url: https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-helm-chart-values.yaml
+- name: Copy base ArgoCD values.yaml from local repo
+  copy:
+    src: "{{ ansible_env.HOME }}/home-lab-kube-cluster-on-proxmox/k8s-manifests/argocd-helm-chart-values.yaml"
     dest: /tmp/argocd-helm-chart-values.yaml
 
 - name: Append PAT to base values.yaml
@@ -37,6 +37,12 @@
     helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
     helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version 4.11.0
 
+- name: Deploy Cloudflare Tunnel secrets
+  shell: kubectl apply -f {{ ansible_env.HOME }}/home-lab-kube-cluster-on-proxmox/k8s-manifests/secrets/cloudflare-tunnel-secret.yaml
+
+- name: Deploy Cloudflare Tunnel daemon
+  shell: kubectl apply -f {{ ansible_env.HOME }}/home-lab-kube-cluster-on-proxmox/k8s-manifests/apps/cluster-wide-app-resources/cloudflare-tunnel.yaml
+
 - name: Install ArgoCD core
   shell: >
     helm install argocd argo/argo-cd
@@ -44,6 +50,7 @@
     --create-namespace
     --namespace argocd
     --values /tmp/argocd-helm-chart-values.yaml
+    --values {{ ansible_env.HOME }}/home-lab-kube-cluster-on-proxmox/k8s-manifests/secrets/argocd-oauth-config.yaml
 
 - name: Install ArgoCD apps
   shell: >

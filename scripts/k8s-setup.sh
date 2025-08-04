@@ -332,7 +332,9 @@ EOF
 sudo apt-get install -y ansible git sshpass
 
 # clone repo
-git clone -b main https://github.com/naoido/home-lab-kube-cluster-on-proxmox.git "$HOME"/home-lab-kube-cluster-on-proxmox
+git config --global credential.helper store
+echo "https://naoido:$GITHUB_PAT@github.com" >> ~/.git-credentials
+git clone -b  main  --recursive https://github.com/naoido/home-lab-kube-cluster-on-proxmox.git "$HOME"/home-lab-kube-cluster-on-proxmox
 
 # export ansible.cfg target
 export ANSIBLE_CONFIG="$HOME"/home-lab-kube-cluster-on-proxmox/ansible/ansible.cfg
