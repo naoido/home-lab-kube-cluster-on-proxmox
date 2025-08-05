@@ -34,6 +34,16 @@
             name: neko-bot-secret
             username: naoido
             password: {{ NEKO_BOT_SECRET_PAT }}
+          objectt-minecraft-infra:
+            url: https://github.com/object-t/objectt-minecraft-server-infra.git
+            name: objectt-minecraft-infra
+            username: naoido
+            password: {{ NEKO_BOT_SECRET_PAT }}
+          objectt-minecraft-secret:
+            url: https://github.com/object-t/objectt-minecraft-server-infra-sercret.git
+            name: objectt-minecraft-secret
+            username: naoido
+            password: {{ NEKO_BOT_SECRET_PAT }}
 
 - name: Wait for at least 1 Ready worker node
   shell: kubectl get nodes --no-headers | grep -v control-plane | grep -c ' Ready '
