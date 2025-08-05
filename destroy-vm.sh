@@ -6,6 +6,8 @@ VM_LIST=(
     "1101 k8s-wk-1 4    8192  192.168.1.21 192.168.1.6 primergy-proxmox-01"
     "1102 k8s-wk-2 4    8192  192.168.1.22 192.168.1.6 primergy-proxmox-01"
     "1103 k8s-wk-3 4    8192  192.168.1.23 192.168.1.6 primergy-proxmox-01"
+    "1104 k8s-wk-4 4    8192  192.168.1.24 192.168.1.7 core-proxmox-01"
+    "1105 k8s-wk-5 4    8192  192.168.1.25 192.168.1.7 core-proxmox-01"
 )
 
 for array in "${VM_LIST[@]}"
