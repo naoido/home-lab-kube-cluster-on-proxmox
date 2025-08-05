@@ -5,6 +5,8 @@ k8s-cp-3 ansible_host=192.168.1.13
 k8s-wk-1 ansible_host=192.168.1.21
 k8s-wk-2 ansible_host=192.168.1.22
 k8s-wk-3 ansible_host=192.168.1.23
+k8s-wk-4 ansible_host=192.168.1.24
+k8s-wk-5 ansible_host=192.168.1.25
 
 [k8s-servers:vars]
 ansible_ssh_pass=zaq12wsx
@@ -44,6 +46,8 @@ ansible_ssh_private_key_file=/root/.ssh/id_ed25519
 k8s-wk-1 ansible_host=192.168.1.21
 k8s-wk-2 ansible_host=192.168.1.22
 k8s-wk-3 ansible_host=192.168.1.23
+k8s-wk-4 ansible_host=192.168.1.24
+k8s-wk-5 ansible_host=192.168.1.25
 
 [k8s-servers-wk-with-ssh:vars]
 ansible_ssh_private_key_file=/root/.ssh/id_ed25519
