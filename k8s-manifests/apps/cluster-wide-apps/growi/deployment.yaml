@@ -51,7 +51,7 @@ spec:
       resources:
         requests:
           storage: 10Gi
-      storageClassName: nfs-client
+      storageClassName: nfs-csi
 ---
 apiVersion: v1
 kind: Service
@@ -170,4 +170,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: nfs-client
+  storageClassName: nfs-csi
