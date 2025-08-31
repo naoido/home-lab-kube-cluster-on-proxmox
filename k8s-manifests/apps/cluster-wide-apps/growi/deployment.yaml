@@ -18,7 +18,7 @@ spec:
         kubernetes.io/arch: amd64
       containers:
       - name: mongodb
-        image: l33tlamer/mongodb-without-avx:7.0
+        image: l33tlamer/mongodb-without-avx:6.2.1
         ports:
         - containerPort: 27017
         env:
