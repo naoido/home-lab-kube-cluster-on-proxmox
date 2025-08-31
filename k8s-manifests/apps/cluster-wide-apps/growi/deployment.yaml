@@ -16,7 +16,6 @@ spec:
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
-      runtimeClassName: runc
       containers:
       - name: mongodb
         image: mongo:7.0
