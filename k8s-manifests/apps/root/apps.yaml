@@ -120,3 +120,31 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 2m
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: growi
+  namespace: argocd
+spec:
+  project: growi
+  source:
+    repoURL: https://github.com/naoido/home-lab-kube-cluster-on-proxmox
+    targetRevision: main
+    path: k8s-manifests/apps/cluster-wide-apps/growi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: 'growi'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: -1
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m

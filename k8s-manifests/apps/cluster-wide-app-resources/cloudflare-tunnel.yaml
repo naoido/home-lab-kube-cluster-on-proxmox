@@ -66,4 +66,6 @@ data:
       service: https://argocd-server.argocd.svc.cluster.local:443
       originRequest:
         noTLSVerify: true
+    - hostname: growi.object-t.com
+      service: http://growi.growi.svc.cluster.local:3000
     - service: http_status:404

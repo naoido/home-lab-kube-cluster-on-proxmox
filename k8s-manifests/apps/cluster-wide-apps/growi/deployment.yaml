@@ -1,0 +1,173 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  namespace: growi
+spec:
+  serviceName: mongodb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:7.0
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: growi-secrets
+              key: mongodb-root-username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: growi-secrets
+              key: mongodb-root-password
+        - name: MONGO_INITDB_DATABASE
+          value: "growi"
+        volumeMounts:
+        - name: mongodb-data
+          mountPath: /data/db
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+  volumeClaimTemplates:
+  - metadata:
+      name: mongodb-data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: nfs-client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  namespace: growi
+spec:
+  selector:
+    app: mongodb
+  ports:
+  - port: 27017
+    targetPort: 27017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: growi
+  namespace: growi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: growi
+  template:
+    metadata:
+      labels:
+        app: growi
+    spec:
+      containers:
+      - name: growi
+        image: weseek/growi:7.2.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: growi-secrets
+              key: mongodb-uri
+        - name: FILE_UPLOAD
+          value: "aws"
+        - name: FILE_UPLOAD_USES_ONLY_ENV_VAR_FOR_FILE_UPLOAD_TYPE
+          value: "true"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: growi-secrets
+              key: r2-access-key-id
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: growi-secrets
+              key: r2-secret-access-key
+        - name: AWS_REGION
+          value: "auto"
+        - name: AWS_S3_CUSTOM_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: growi-secrets
+              key: r2-endpoint
+        - name: AWS_S3_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: growi-secrets
+              key: r2-bucket-name
+        - name: S3_OBJECT_ACL
+          value: "private"
+        - name: MAX_FILE_SIZE
+          value: "21474836480"
+        - name: FILE_UPLOAD_TOTAL_LIMIT
+          value: "21474836480"
+        - name: APP_SITE_URL
+          value: "https://growi.object-t.com"
+        - name: PASSWORD_SEED
+          valueFrom:
+            secretKeyRef:
+              name: growi-secrets
+              key: password-seed
+        volumeMounts:
+        - name: growi-data
+          mountPath: /data
+        resources:
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+      volumes:
+      - name: growi-data
+        persistentVolumeClaim:
+          claimName: growi-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: growi-pvc
+  namespace: growi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: nfs-client
