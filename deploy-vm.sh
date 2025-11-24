@@ -125,7 +125,7 @@ runcmd:
   - su - cloudinit -c "chmod 600 ~/.ssh/authorized_keys"
   # run install scripts
   - su - cloudinit -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/scripts/k8s-setup.sh > ~/k8s-setup.sh"
-  - su - cloudinit -c "sudo bash ~/k8s-setup.sh ${vmname} ${TARGET_BRANCH} ${GITHUB_PAT}"
+  - su - cloudinit -c "sudo bash ~/k8s-setup.sh ${vmname} ${GITHUB_PAT}"
   # change default shell to bash
   - chsh -s $(which bash) cloudinit
 EOF
