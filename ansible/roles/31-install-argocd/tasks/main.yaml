@@ -5,8 +5,13 @@
 
 - name: Copy base ArgoCD values.yaml from local repo
   copy:
-    src: "{{ ansible_env.HOME }}/home-lab-kube-cluster-on-proxmox/k8s-manifests/argocd-helm-chart-values.yaml"
+    src: /root/home-lab-kube-cluster-on-proxmox/k8s-manifests/argocd-helm-chart-values.yaml
     dest: /tmp/argocd-helm-chart-values.yaml
+
+- name: Copy ArgoCD OAuth config from local repo
+  copy:
+    src: /root/home-lab-kube-cluster-on-proxmox/k8s-manifests/secrets/argocd-oauth-config.yaml
+    dest: /tmp/argocd-oauth-config.yaml
 
 - name: Append PAT to base values.yaml
   blockinfile:
@@ -64,7 +69,7 @@
     --create-namespace
     --namespace argocd
     --values /tmp/argocd-helm-chart-values.yaml
-    --values {{ ansible_env.HOME }}/home-lab-kube-cluster-on-proxmox/k8s-manifests/secrets/argocd-oauth-config.yaml
+    --values /tmp/argocd-oauth-config.yaml
 
 - name: Install ArgoCD apps
   shell: >
@@ -73,7 +78,10 @@
     --namespace argocd
     --values https://raw.githubusercontent.com/naoido/home-lab-kube-cluster-on-proxmox/main/k8s-manifests/argocd-apps-helm-chart-values.yaml
 
-- name: Remove temporary ArgoCD values file
+- name: Remove temporary ArgoCD files
   file:
-    path: /tmp/argocd-helm-chart-values.yaml
+    path: "{{ item }}"
     state: absent
+  loop:
+    - /tmp/argocd-helm-chart-values.yaml
+    - /tmp/argocd-oauth-config.yaml
